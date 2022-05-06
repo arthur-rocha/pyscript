@@ -1,0 +1,70 @@
+.preload {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100vh;
+    background: #c290e2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+    z-index: 10;
+  }
+  
+  .preload h3 {
+    position: absolute;
+    top:78%;
+    font-family: sans-serif;
+    font-size: 32px;
+    color:#ffffff;
+    font-weight: 400;
+  }
+  
+  
+  .preload-finish {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+
+  @keyframes playCard {
+    0% {
+      background-position: 0px 0px;
+    }
+    100% {
+      background-position: -12288px 0px;
+    }
+  }
+
+  .cardAnimation {
+  animation-duration: 800ms;
+  animation-timing-function: steps(24);
+  animation-iteration-count: infinite;
+  width: 512px;
+  height: 512px;
+  background-repeat: no-repeat;
+}
+  .cardAnimation.play {
+    animation-name: playCard;
+  }
+
+  .box-title{
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .input-content{
+    margin-left: 10%
+  }
+
+  form{
+    margin-left: 40%;
+  }
+
+  input[type='radio'], label{   
+    vertical-align: baseline;
+    padding: 10px;
+    margin: 10px;
+    display: inline;
+ }

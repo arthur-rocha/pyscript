@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Credit score model</title>
+</head>
+<body>
+
+  <div class="preload">
+
+    <div class="cardAnimation play" style="background-image: url(./credit-card-sprite.svg);"></div>
+
+
+  <h3>Just a second...</h3>
+
+
+</div>
+
+    <py-env>
+        - numpy
+        - pandas
+        - scikit-learn
+        - joblib
+        - paths:
+            - /public/xgb_model.joblib
+            - /public/OneHotencoder.joblib
+            - /public/credit_classifier.py
+      </py-env>
+
+    <h1 id="coisa" style="font-size: 35px; text-align: center;">Credit Score model (XGboost)</h1>
+    
+      <div class="box-title"> Age</div>
+      <py-box widths="4/5" >
+        <py-inputbox id="age-content" class="input-content"></py-inputbox>
+      </py-box>
+    
+      <div class="box-title"> Income</div>
+      <py-box widths="4/5">
+        <py-inputbox id="income-content" class="input-content"> </py-inputbox>
+      </py-box>
+
+      <div class="box-title"> Own Car</div>
+      <form id="car-content">
+        <input type="radio" id="ycar" name="own_car" value="Y">
+        <label for="ycar">Yes</label><br>
+        <input type="radio" id="ncar" name="own_car" value="N">
+        <label for="ncar">No</label><br>
+      </form>
+
+      <div class="box-title"> Own Realty</div>
+      <form id="realty-content">
+        <input type="radio" id="yrealty" name="own_realty" value="Y">
+        <label for="yrealty">Yes</label><br>
+        <input type="radio" id="nrealty" name="own_realty" value="N">
+        <label for="nrealty">No</label><br>
+      </form>
+
+      <div class="box-title"> Education</div>
+      <form id="education-content">
+        <input type="radio" id="e1" name="education" value="Lower secondary">
+        <label for="e1">Lower secondary</label><br>
+        <input type="radio" id="e2" name="education" value="Secondary / secondary special">
+        <label for="e2">Secondary / secondary special</label><br>
+        <input type="radio" id="e3" name="education" value="Incomplete higher">
+        <label for="e3">Incomplete higher</label><br>
+        <input type="radio" id="e4" name="education" value="Higher education">
+        <label for="e4">Higher education</label><br>
+        <input type="radio" id="e5" name="education" value="Academic degree">
+        <label for="e5">Academic degree</label><br>
+      </form>
+
+      <div class="box-title"> Family Status</div>
+
+       <form id="family-content">
+        <input type="radio" id="f1" name="family" value="Single / not married">
+        <label for="f1">Single / not married</label><br>
+        <input type="radio" id="f2" name="family" value="Married">
+        <label for="f2">Married</label><br>
+        <input type="radio" id="f3" name="family" value="Civil marriage">
+        <label for="f3">Civil marriage</label><br>
+        <input type="radio" id="f4" name="family" value="Separated">
+        <label for="f4">Separated</label><br>
+        <input type="radio" id="f5" name="family" value="Widow">
+        <label for="f5">Widow</label><br>
+      </form>
+
+    <py-script id="main">
+
+from credit_classifier import CreditModel
+import warnings
+warnings.filterwarnings("ignore")
+
+credit = CreditModel()
+result = credit.predict(FLAG_OWN_CAR='Y', FLAG_OWN_REALTY='Y',
+AMT_INCOME_TOTAL=8000, NAME_EDUCATION_TYPE= 'Lower secondary',
+NAME_FAMILY_STATUS='Single / not married', AGE=25)
+
+print(f'Score: {result}')
+    </py-script>
+
+    <script src="app.js"> </script>
+</body>
+</html>
