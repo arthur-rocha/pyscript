@@ -52,6 +52,7 @@
   .box-title{
     text-align: center;
     font-size: 24px;
+    padding-top: 25px;
   }
 
   .input-content{
@@ -68,3 +69,32 @@
     margin: 10px;
     display: inline;
  }
+
+ button {
+  background:    rgb(127, 24, 245) !important;
+  color:         #f6f4f4;
+  font:          normal 700 24px/1 "Open Sans", sans-serif;
+  text-align:    center;
+  margin-left: 37% !important ;
+
+}
+
+#score{
+  margin-left: 40%;
+  font-size: larger;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+datalist {
+  display: flex;
+  justify-content: space-between;
+  color: purple;
+  width: 50%;
+  margin-left: 20%;
+}
+
+#age-range {
+  width: 50%;
+  margin-left: 20%;
+}

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <link rel="stylesheet" href="./style.css" />
 
     <title>Credit score model</title>
@@ -33,19 +33,20 @@
             - /public/credit_classifier.py
       </py-env>
 
-    <h1 id="coisa" style="font-size: 35px; text-align: center;">Credit Score model (XGboost)</h1>
+    <h1 id="head-title" style="font-size: 35px; text-align: center;">Credit Score model (XGboost)</h1>
     
-      <div class="box-title"> Age</div>
+      <div class="box-title"> What's your Age? (Years)</div>
       <py-box widths="4/5" >
         <py-inputbox id="age-content" class="input-content"></py-inputbox>
       </py-box>
+
     
-      <div class="box-title"> Income</div>
+      <div class="box-title"> What's your Yearly Income (USD)</div>
       <py-box widths="4/5">
         <py-inputbox id="income-content" class="input-content"> </py-inputbox>
       </py-box>
 
-      <div class="box-title"> Own Car</div>
+      <div class="box-title"> Do you own a car?</div>
       <form id="car-content">
         <input type="radio" id="ycar" name="own_car" value="Y">
         <label for="ycar">Yes</label><br>
@@ -53,7 +54,7 @@
         <label for="ncar">No</label><br>
       </form>
 
-      <div class="box-title"> Own Realty</div>
+      <div class="box-title"> Do you own a Realty</div>
       <form id="realty-content">
         <input type="radio" id="yrealty" name="own_realty" value="Y">
         <label for="yrealty">Yes</label><br>
@@ -61,7 +62,7 @@
         <label for="nrealty">No</label><br>
       </form>
 
-      <div class="box-title"> Education</div>
+      <div class="box-title"> What's your Education degree?</div>
       <form id="education-content">
         <input type="radio" id="e1" name="education" value="Lower secondary">
         <label for="e1">Lower secondary</label><br>
@@ -75,7 +76,7 @@
         <label for="e5">Academic degree</label><br>
       </form>
 
-      <div class="box-title"> Family Status</div>
+      <div class="box-title"> What's your Family Status?</div>
 
        <form id="family-content">
         <input type="radio" id="f1" name="family" value="Single / not married">
@@ -89,19 +90,50 @@
         <input type="radio" id="f5" name="family" value="Widow">
         <label for="f5">Widow</label><br>
       </form>
+      <br>
+      <py-button id="submit" label="Show me my credit score!" class="submit-btn">
+        def on_click(evt):
+          submit_infos()
+      </py-button>
+      <br>
 
+      <h2 id="score">
+        Score Place Holder
+      </h2>
     <py-script id="main">
 
 from credit_classifier import CreditModel
 import warnings
 warnings.filterwarnings("ignore")
+import js
 
 credit = CreditModel()
-result = credit.predict(FLAG_OWN_CAR='Y', FLAG_OWN_REALTY='Y',
-AMT_INCOME_TOTAL=8000, NAME_EDUCATION_TYPE= 'Lower secondary',
-NAME_FAMILY_STATUS='Single / not married', AGE=25)
 
-print(f'Score: {result}')
+def input_box_value(id):
+  return js.document.getElementById(id).value
+
+def radio_btn_value(name):
+  return js.document.querySelector(f'input[name={name}]:checked').value
+
+def submit_infos():
+  
+  age = input_box_value("age-content")
+  income = input_box_value("income-content")
+  car = radio_btn_value("own_car") 
+  realty = radio_btn_value("own_realty") 
+  education = radio_btn_value("education")
+  family_status = radio_btn_value("family")
+  
+  
+  result = credit.predict(FLAG_OWN_CAR=car, FLAG_OWN_REALTY=realty,
+  AMT_INCOME_TOTAL=income, NAME_EDUCATION_TYPE=education,
+  NAME_FAMILY_STATUS=family_status, AGE=age)
+  
+  score_h2 = Element('score')
+  score_h2.write(f'Score: {result}')
+
+
+
     </py-script>
 
     <script src="app.js"> </script>
