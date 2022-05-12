@@ -1,0 +1,9 @@
+numpy
+pandas
+sklearn
+joblib
+nltk
+rake_nltk
+requests
+bs4
+tqdm

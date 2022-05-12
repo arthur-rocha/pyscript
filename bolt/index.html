@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;800&display=swap" rel="stylesheet">
+
+    <title>Bolt's Job Recommender</title>
+</head>
+<body>
+
+  <div class="preload">
+
+    <div class="cardAnimation play" style="background-image: url(./bolt-sprite.svg);"></div>
+
+
+  <h3>Just a second...</h3>
+
+
+</div>
+
+    <py-env>
+        - numpy
+        - pandas
+        - scikit-learn
+        - joblib
+        - nltk
+        - rake_nltk
+        - panel
+        - paths:
+            - /model_objects/jobs_encoder.joblib
+            - /model_objects/jobs_matrix.joblib
+            - /model_objects/jobs_filtered_data.joblib
+            - /model_objects/recommendation_engine.py
+            - /model_objects/nltk_utils.py
+            - /model_objects/nltk_data_raw/corpora.zip
+            - /model_objects/nltk_data_raw/tokenizers.zip
+      </py-env>
+
+
+      <py-script id="main">
+
+import pandas as pd
+from recommendation_engine import Recommender
+import js
+import warnings
+warnings.filterwarnings("ignore")
+import nltk_utils
+
+#necessary to run nltk 
+nltk_utils.extract_nltk_packages()
+
+#instance the recommender class
+job_model = Recommender()
+
+#finish the preloader 
+preload = document.querySelector(".preload");
+preload.classList.add("preload-finish");
+
+def input_box_value(id):
+  return js.document.getElementById(id).value
+        
+def submit_infos():        
+  user_input = input_box_value("description-content")
+  
+  result = job_model.recommend(user_input)
+  
+  recom_h4_py = Element('recom')
+  recom_h4_js = document.getElementById('recom')
+  
+  recom_df = result[['title','link']]
+  recom_df.reset_index(drop=True, inplace=True)
+  recom_df = recom_df.rename(columns={'title': 'Position', 'link':'URL'})
+
+  recom_h4_js.innerHTML = '' 
+  recom_h4_py.write(recom_df)
+  
+  document.getElementById('recom-container').classList.add('jobs-modal-open')
+  
+
+        
+            </py-script>
+
+
+      <div class="container">
+        <div class="header">
+          <img src="./bolt_logo.svg" alt="bolt logo" width="20%">
+        </div>
+  
+        <form id="form" class="form">
+          <div class="form-control">
+            <textarea 
+              id="description-content"
+              placeholder="Write here a little bit about yourself, your professional experience and skills..."></textarea>
+            <small>Mensagem de erro</small>
+          </div>
+  
+        </form>
+
+        <py-button id="submitze" label="Recommend me jobs at Bolt!" class="submit-btn">
+          def on_click(evt):
+            submit_infos()
+        </py-button>
+      </div>
+      
+
+      <div id='recom-container' class="jobs-modal">
+        
+        <div id="recom" ></div>
+        <a id="close-btn" 
+        onClick="document.getElementById('recom-container').classList.remove('jobs-modal-open')">X</a>
+
+      </div>
+      
+      <div class="project-info" > Made by Arthur Rocha 
+        <br>
+        <a href="https://github.com/arthur-rocha/pyscript/tree/main/bolt" 
+        style="color: rgb(255, 255, 255); font-weight: bold;">Project Repo</a>
+      </div>
+    
+</body>
+</html>
