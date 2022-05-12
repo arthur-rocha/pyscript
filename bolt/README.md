@@ -20,10 +20,37 @@
 
 - I've made a docker container to deploy a flask app which can receive http requests with the description as a parameter and return the recommended job list.
 
-- To run the container on port 7979 use this command on bash:
+- To run the container on port 5000 use this command on bash:
 
-`docker build -t docker_bolt_jobs . && docker run -d -p 7979:80 --name=docker_bolt_jobs -v $PWD:/app docker_bolt_jobs`
+`docker image build -t docker_bolt_jobs . && docker run -p 5000:5000 -d docker_bolt_jobs`
 
------- Resquest example ------
+- Then you can send a POST request to http://localhost:5000/recommend_job with a `description` field on the payload:
 
+- Example:
+
+Payload: `{"description": "I'm a data scientist with experience using python, R and SQL"}`
+
+API response: `{
+	"681": {
+		"department": "Analytics",
+		"link": "https://bolt.eu/en/careers/positions/5147368002",
+		"location": "{'city': 'Warsaw, Poland'}",
+		"similarity": 0.18113088900055463,
+		"title": "Senior Campaigns Analyst"
+	},
+	"682": {
+		"department": "Analytics",
+		"link": "https://bolt.eu/en/careers/positions/4895247002",
+		"location": "{'city': 'Tallinn, Estonia'}",
+		"similarity": 0.18113088900055463,
+		"title": "Senior Campaigns Analyst"
+	},
+	"683": {
+		"department": "Analytics",
+		"link": "https://bolt.eu/en/careers/positions/4895248002",
+		"location": "{'city': 'Tartu, Estonia'}",
+		"similarity": 0.21053798026662976,
+		"title": "Senior Campaigns Analyst"
+	} ... 
+}`
 
