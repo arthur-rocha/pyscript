@@ -251,6 +251,8 @@ td{
 
 a:hover {
   cursor:pointer;
+  color: #34d186;
+  transition: all .5s ease;
  }
 
  .project-info{
