@@ -8,6 +8,10 @@ h1, h2, h3, h4{
   font-weight: bold;
 }
 
+#pyscript_loading_splash{
+  opacity: 0;
+}
+
 .preload {
     position: fixed;
     left: 0%;
@@ -90,8 +94,13 @@ h1, h2, h3, h4{
   margin: 0 auto;
   display: block;
   margin-bottom: 15px;
+  transition: all .5s ease;
 }
 
+button:hover {
+  background:    #585858 !important;
+  
+}
 #score{
   margin-left: 40%;
   font-size: larger;
@@ -259,4 +268,14 @@ a:hover {
   text-align: center;
   color:rgb(229 229 229);
   padding-top: 2%;
+ }
+
+ .repo{
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  transition: all .5s ease
+ }
+
+ .repo:hover{
+   color: #585858;
  }
